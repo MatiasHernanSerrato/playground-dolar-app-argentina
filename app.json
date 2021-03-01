@@ -1,0 +1,12 @@
+{
+  "name": "dolar-playground-app",
+  "displayName": "dolar-playground-app",
+  "expo": {
+    "name": "dolar-playground-app",
+    "slug": "dolar-playground-app",
+    "version": "1.0.0",
+    "assetBundlePatterns": [
+      "**/*"
+    ]
+  }
+}
