@@ -1,6 +1,8 @@
 import { StatusBar } from 'expo-status-bar';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
+
+import UseLessTextInput from './src/components/UseLessTextInput';
 
 const DOLAR_API = 'https://www.dolarsi.com/api/api.php?type=valoresprincipales';
 
@@ -18,6 +20,14 @@ const TYPE_OF_DOLAR = {
 const App = () => {
   const [dolarBlue, setDolarBlue] = useState(null);
   const [dolarOficial, setDolarOficial] = useState(null);
+  const [usdToArs, setUsdToArs] = useState(0);
+  const inputRef = useRef(0);
+
+  useEffect(() => {
+    const arsCurrency = inputRef?.current?.value;
+    console.log(inputRef)
+    if (arsCurrency) setUsdToArs(arsCurrency * dolarBlue);
+  }, [])
 
   useEffect(() => {
     async function fetchData() {
@@ -39,6 +49,13 @@ const App = () => {
       <Text>Dolar Blue</Text>
       <Text>Compra: ${dolarBlue?.compra}</Text>
       <Text>Venta: ${dolarBlue?.venta}</Text>
+      <View>
+        <Text>Si tengo </Text><UseLessTextInput ref={inputRef} keyboardType="numeric" />
+
+        <Text>dolares, vendidos a Dolar blue son</Text>
+        <Text>{usdToArs.toString()}</Text>
+        <Text>pesos Argentinos</Text>
+      </View>
       <StatusBar style="auto" />
     </View>
   );
