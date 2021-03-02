@@ -1,8 +1,6 @@
 import { StatusBar } from 'expo-status-bar';
-import React, { useEffect, useState, useRef } from 'react';
-import { StyleSheet, Text, View } from 'react-native';
-
-import UseLessTextInput from './src/components/UseLessTextInput';
+import React, { useEffect, useState } from 'react';
+import { StyleSheet, Text, View, TextInput } from 'react-native';
 
 const DOLAR_API = 'https://www.dolarsi.com/api/api.php?type=valoresprincipales';
 
@@ -21,13 +19,12 @@ const App = () => {
   const [dolarBlue, setDolarBlue] = useState(null);
   const [dolarOficial, setDolarOficial] = useState(null);
   const [usdToArs, setUsdToArs] = useState(0);
-  const inputRef = useRef(0);
+  const [arsInput, setInputArs] = useState(0);
 
   useEffect(() => {
-    const arsCurrency = inputRef?.current?.value;
-    console.log(inputRef)
-    if (arsCurrency) setUsdToArs(arsCurrency * dolarBlue);
-  }, [])
+    alert(Number(dolarBlue?.compra))
+    setUsdToArs(arsInput * Number(dolarBlue?.compra));
+  }, [arsInput])
 
   useEffect(() => {
     async function fetchData() {
@@ -50,7 +47,12 @@ const App = () => {
       <Text>Compra: ${dolarBlue?.compra}</Text>
       <Text>Venta: ${dolarBlue?.venta}</Text>
       <View>
-        <Text>Si tengo </Text><UseLessTextInput ref={inputRef} keyboardType="numeric" />
+        <Text>Si tengo </Text><TextInput
+          style={{ height: 40, width: 80, borderColor: 'gray', borderWidth: 1 }}
+          value={arsInput}
+          onChange={value => setInputArs(value)}
+          keyboardType="numeric"
+        />
 
         <Text>dolares, vendidos a Dolar blue son</Text>
         <Text>{usdToArs.toString()}</Text>
