@@ -18,13 +18,8 @@ const TYPE_OF_DOLAR = {
 const App = () => {
   const [dolarBlue, setDolarBlue] = useState(null);
   const [dolarOficial, setDolarOficial] = useState(null);
-  const [usdToArs, setUsdToArs] = useState(0);
+  const [usdToArs, setUsdToArs] = useState(null);
   const [arsInput, setInputArs] = useState(0);
-
-  useEffect(() => {
-    alert(Number(dolarBlue?.compra))
-    setUsdToArs(arsInput * Number(dolarBlue?.compra));
-  }, [arsInput])
 
   useEffect(() => {
     async function fetchData() {
@@ -38,6 +33,13 @@ const App = () => {
     fetchData()
   }, []);
 
+  const onChangeTextArs = value => {
+    const priceFixed = parseInt(dolarBlue.compra);
+    const arsFixed = parseInt(value.nativeEvent.text)
+    setInputArs(arsFixed)
+    setUsdToArs(arsFixed * priceFixed);
+  };
+
   return (
     <View style={styles.container}>
       <Text>Dolar Oficial</Text>
@@ -50,12 +52,12 @@ const App = () => {
         <Text>Si tengo </Text><TextInput
           style={{ height: 40, width: 80, borderColor: 'gray', borderWidth: 1 }}
           value={arsInput}
-          onChange={value => setInputArs(value)}
+          onChange={text => onChangeTextArs(text)}
           keyboardType="numeric"
         />
 
         <Text>dolares, vendidos a Dolar blue son</Text>
-        <Text>{usdToArs.toString()}</Text>
+        <Text>{usdToArs}</Text>
         <Text>pesos Argentinos</Text>
       </View>
       <StatusBar style="auto" />
